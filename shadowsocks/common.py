@@ -179,7 +179,7 @@ def parse_header(data):
             dest_port = struct.unpack('>H', data[5:7])[0]
             header_length = 7
         else:
-            logging.warn('header is too short')
+            logging.warn('IPV4 header is too short')
     elif addrtype & ADDRTYPE_MASK == ADDRTYPE_HOST:
         if len(data) > 2:
             addrlen = ord(data[1])
@@ -189,16 +189,16 @@ def parse_header(data):
                                                      addrlen])[0]
                 header_length = 4 + addrlen
             else:
-                logging.warn('header is too short')
+                logging.warn('HOST1 header is too short')
         else:
-            logging.warn('header is too short')
+            logging.warn('HOST2 header is too short')
     elif addrtype & ADDRTYPE_MASK == ADDRTYPE_IPV6:
         if len(data) >= 19:
             dest_addr = socket.inet_ntop(socket.AF_INET6, data[1:17])
             dest_port = struct.unpack('>H', data[17:19])[0]
             header_length = 19
         else:
-            logging.warn('header is too short')
+            logging.warn('IPV6 header is too short')
     else:
         logging.warn('unsupported addrtype %d, maybe wrong password or '
                      'encryption method' % addrtype)
